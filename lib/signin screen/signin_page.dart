@@ -1,17 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:time_tracker/services/authentication.dart';
 
 class SignIn extends StatelessWidget {
   final void Function(User) updateUser;
-  const SignIn({Key? key, required this.updateUser}) : super(key: key);
+  final Auth firebaseAuth;
+  const SignIn({Key? key, required this.firebaseAuth, required this.updateUser})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return _buildSignPage(updateUser);
+    return _buildSignPage(updateUser, firebaseAuth);
   }
 }
 
-Widget _buildSignPage(updateUser) {
+Widget _buildSignPage(updateUser, firebaseAuth) {
   return Scaffold(
     appBar: AppBar(
       title: Text(
@@ -41,6 +44,7 @@ Widget _buildSignPage(updateUser) {
             Colors.black87,
             Colors.white70,
             updateUser,
+            firebaseAuth,
           ),
           _signPageButtons(
             'Sign in with Facebook',
@@ -48,6 +52,7 @@ Widget _buildSignPage(updateUser) {
             Colors.white,
             Colors.blueAccent,
             updateUser,
+            firebaseAuth,
           ),
           _signPageButtons(
             '   Sign in with Email     ',
@@ -55,6 +60,7 @@ Widget _buildSignPage(updateUser) {
             Colors.white,
             Colors.black,
             updateUser,
+            firebaseAuth,
           ),
           SizedBox(height: 20.0),
           Text(
@@ -71,6 +77,7 @@ Widget _buildSignPage(updateUser) {
             Colors.black,
             Colors.limeAccent,
             updateUser,
+            firebaseAuth,
           ),
           SizedBox(height: 20.0),
           Text(
@@ -86,13 +93,14 @@ Widget _buildSignPage(updateUser) {
   );
 }
 
-Widget _signPageButtons(label, icon, labelColor, buttonColor, function) {
+Widget _signPageButtons(
+    label, icon, labelColor, buttonColor, function, firebaseAuth) {
   return ElevatedButton.icon(
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all(buttonColor),
     ),
     onPressed: () async {
-      final userInfo = await FirebaseAuth.instance.signInAnonymously();
+      final userInfo = await firebaseAuth.signInAnonymously();
       function(userInfo.user);
     },
     icon: Icon(
