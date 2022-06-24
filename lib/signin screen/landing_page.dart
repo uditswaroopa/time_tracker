@@ -5,6 +5,7 @@ import 'package:time_tracker/signin%20screen/signin_page.dart';
 
 import '../services/authentication.dart';
 
+//State management using function callback
 class LandingPage extends StatefulWidget {
   final Auth firebaseAuth;
   const LandingPage({Key? key, required this.firebaseAuth}) : super(key: key);
@@ -29,6 +30,7 @@ class _LandingPageState extends State<LandingPage> {
     if (_user == null) {
       return SignIn(
         updateUser: (user) {
+          // Listener of the changes
           setState(() {
             _user = user;
           });
@@ -38,6 +40,7 @@ class _LandingPageState extends State<LandingPage> {
     } else {
       return HomePage(
         signOut: () => setState(() {
+          // Listener of the changes
           _user = null;
         }),
         firebaseAuth: widget.firebaseAuth,
