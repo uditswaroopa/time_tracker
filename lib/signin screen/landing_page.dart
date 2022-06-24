@@ -20,7 +20,7 @@ class _LandingPageState extends State<LandingPage> {
   void initState() {
     super.initState();
     setState(() {
-      _user = FirebaseAuth.instance.currentUser;
+      _user = widget.firebaseAuth.getUser();
     });
   }
 

@@ -4,7 +4,7 @@ class Auth {
   final _firebaseAuth = FirebaseAuth.instance;
 
   getUser() {
-    _firebaseAuth.currentUser;
+    return _firebaseAuth.currentUser;
   }
 
   signInAnonymously() async {
