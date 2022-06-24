@@ -20,8 +20,11 @@ class _LandingPageState extends State<LandingPage> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      _user = widget.firebaseAuth.getUser();
+    widget.firebaseAuth.onAuthChange().listen((user) {
+      print('User: ${user?.uid}');
+      setState(() {
+        _user = user;
+      });
     });
   }
 
@@ -29,20 +32,10 @@ class _LandingPageState extends State<LandingPage> {
   Widget build(BuildContext context) {
     if (_user == null) {
       return SignIn(
-        updateUser: (user) {
-          // Listener of the changes
-          setState(() {
-            _user = user;
-          });
-        },
         firebaseAuth: widget.firebaseAuth,
       );
     } else {
       return HomePage(
-        signOut: () => setState(() {
-          // Listener of the changes
-          _user = null;
-        }),
         firebaseAuth: widget.firebaseAuth,
       );
     }
